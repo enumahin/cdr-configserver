@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: "configserver"
+  profiles:
+#    active: "native" # Because we are using classpath:config/*.yml we need to set this
+    active: git
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/enumahin/cdr-microservices-config.git
+          default-label: main
+          timeout: 5 # Throw Exception after trying to connect to the repo for 5 seconds
+          clone-on-start: true # Clone the repo on configserver startup
+          force-pull: true # Override local changes
+#          username: enumahin
+#          password: ${{secrets.GITHUB_TOKEN}}
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+encrypt:
+  key: "674HFGJS837348EFHDDKFJD3944HDJFHJF"
+server:
+  port: 8071
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      show-details: always
+      probes:
+        enabled: true
