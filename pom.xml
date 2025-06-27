@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.alienworkspace.cdr</groupId>
 	<artifactId>cdr-configserver</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3.SNAPSHOT</version>
 	<name>cdr-configserver</name>
 	<description>CDR microservices configuration server</description>
 	<url/>
@@ -68,8 +68,30 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.graalvm.buildtools</groupId>
+				<artifactId>native-maven-plugin</artifactId>
+				<configuration>
+					<buildArgs>
+						<buildArgs>-Ob</buildArgs> <!-- Don't use in build release -->
+					</buildArgs>
+					<metadataRepository>
+						<enabled>true</enabled>
+						<version>0.3.22</version>
+					</metadataRepository>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>enumahin/${project.artifactId}:${project.version}</name>
+						<builder>paketobuildpacks/builder:tiny</builder>
+						<env>
+							<BP_NATIVE_IMAGE>true</BP_NATIVE_IMAGE>
+						</env>
+					</image>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
