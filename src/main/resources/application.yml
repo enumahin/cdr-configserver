@@ -41,3 +41,15 @@ management:
       show-details: always
       probes:
         enabled: true
+    shutdown:
+     access: unrestricted # Allow gracefully shutdown of the microservice
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    com:
+      alienworkspace:
+        cdr:
+          cdr_configserver: DEBUG
